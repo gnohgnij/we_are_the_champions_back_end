@@ -8,6 +8,7 @@ const Team = new Schema({
   points: { type: Number, required: true },
   alternatePoints: { type: Number, required: true },
   totalGoals: { type: Number, required: true },
+  opponents: [{ type: String }],
 });
 
 module.exports = mongoose.model("Team", Team);

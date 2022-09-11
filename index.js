@@ -17,9 +17,8 @@ app.use((req, res, next) => {
 connectDB();
 
 app.use("/api/team", require("./routes/team"));
-app.use("/api/match", require("./routes/match"));
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
