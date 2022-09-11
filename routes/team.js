@@ -187,30 +187,6 @@ router.post("/match", async (req, res) => {
 
     await firstTeam.save();
     await secondTeam.save();
-
-    //check if teamA and teamB match already exists
-    // let match;
-    // try {
-    //   match = await Match.findOne({ teamA: firstTeam, teamB: secondTeam });
-    // } catch (err) {
-    //   return res.json({ status: "error", reason: err.message });
-    // }
-
-    // if (match) {
-    //   return res.json({
-    //     status: "error",
-    //     reason: `Match between ${teamA} and ${teamB} is already recorded`,
-    //   });
-    // } else {
-    //   match = new Match({
-    //     teamA: firstTeam,
-    //     teamB: secondTeam,
-    //     goalsA: goalsA,
-    //     goalsB: goalsB,
-    //   });
-
-    //   await match.save();
-    // }
   }
   return res.json({ matches });
 });
