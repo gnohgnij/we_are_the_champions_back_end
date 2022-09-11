@@ -126,7 +126,6 @@ router.post("/", async (req, res) => {
     }
 
     if (match) {
-      console.log(match);
       return res.json({
         status: "error",
         reason: `Match between ${teamA} and ${teamB} is already recorded`,
