@@ -97,7 +97,7 @@ router.post("/", async (req, res) => {
 
 //POST
 //Update teams' points, totalGoals, alternatePoints & opponents
-router.post("/match", async (req, res) => {
+router.patch("/", async (req, res) => {
   if (Object.keys(req.body).length === 0) {
     return res.json({ status: "error", reason: "Content cannot be empty" });
   }

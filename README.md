@@ -18,6 +18,26 @@ Click [here](https://github.com/gnohgnij/We_are_the_Champions) to view the repos
 | alternatePoints | _Number_<br> Total points scored (5 for win, 3 for draw, 1 for loss) |
 | opponents       | _Array_<br> List of opponents faced                                  |
 
+**API**
+
+Base URL: https://campeon.herokuapp.com/
+
+GET /api/team
+
+> Get all teams' information
+
+POST /api/team
+
+> Create new team
+
+POST /api/team/match
+
+> Update team's information after match
+
+DELETE /api/team
+
+> Clear all team records
+
 ## How to run locally
 
 1. Clone this repository `$ git clone https://github.com/gnohgnij/we_are_the_champions_back_end.git`
