@@ -30,7 +30,7 @@ POST /api/team
 
 > Create new team
 
-POST /api/team/match
+PATCH /api/team
 
 > Update team's information after match
 
