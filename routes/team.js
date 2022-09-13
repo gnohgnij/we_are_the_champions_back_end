@@ -107,6 +107,11 @@ router.patch("/", async (req, res) => {
   for (let i = 0; i < matches.length; i++) {
     const { teamA, teamB, goalsA, goalsB } = matches[i];
 
+    //check for missing fields
+    if (!teamA || !teamB || !goalsA || !goalsB) {
+      return res.json({ status: "error", reason: "Missing field(s)" });
+    }
+
     //check if teamA === teamB
     if (teamA === teamB) {
       return res.json({
