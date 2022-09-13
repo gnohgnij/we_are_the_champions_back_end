@@ -63,23 +63,15 @@ router.post("/", async (req, res) => {
     //Check if there are more than 6 teams per group
     if (group1Size > 6 || group2Size > 6) {
       return res.json({ status: "error", reason: "Group size exceeded" });
-    } else {
-      if (parseInt(group) === 1) group1Size++;
-      else group2Size++;
     }
+    if (parseInt(group) === 1) group1Size++;
+    else if (parseInt(group) === 2) group2Size++;
 
     //Check the current team is already registered
-    let team;
-    try {
-      team = await Team.findOne({ name });
-    } catch (err) {
-      return res.json({ status: "error", reason: err.message });
-    }
-
-    if (team) {
+    if (saveTeams.find((team) => team.name === name)) {
       return res.json({ status: "error", reason: "Team already registered" });
     } else {
-      team = new Team({
+      let team = new Team({
         name,
         registeredDate,
         group: parseInt(group),
