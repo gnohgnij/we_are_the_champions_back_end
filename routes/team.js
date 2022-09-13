@@ -38,6 +38,7 @@ router.post("/", async (req, res) => {
   let teams = req.body.teams;
   let group1Size = 0;
   let group2Size = 0;
+  let saveTeams = [];
 
   for (let i = 0; i < teams.length; i++) {
     const { name, registeredDate, group } = teams[i];
@@ -88,8 +89,16 @@ router.post("/", async (req, res) => {
         opponents: [],
       });
 
-      await team.save();
+      saveTeams.push(team);
     }
+  }
+
+  if (saveTeams.length === teams.length) {
+    for (let i = 0; i < saveTeams.length; i++) {
+      await saveTeams[i].save();
+    }
+  } else {
+    return res.json({ status: "error", reason: "Something went wrong" });
   }
 
   return res.json(teams);
@@ -103,6 +112,14 @@ router.patch("/", async (req, res) => {
   }
 
   let matches = req.body.matches;
+
+  //Get all teams
+  let teams;
+  try {
+    teams = await Team.find({});
+  } catch (err) {
+    return res.json({ status: "error", reason: err.message });
+  }
 
   for (let i = 0; i < matches.length; i++) {
     const { teamA, teamB, goalsA, goalsB } = matches[i];
@@ -122,27 +139,26 @@ router.patch("/", async (req, res) => {
 
     //check if teamA and teamB are registered
     let firstTeam;
-    try {
-      firstTeam = await Team.findOne({ name: teamA });
-    } catch (err) {
-      return res.json({ status: "error", reason: err.message });
+    let secondTeam;
+    for (let j = 0; j < teams.length; j++) {
+      if (teams[j].name === teamA) {
+        firstTeam = teams[j];
+      } else if (teams[j].name === teamB) {
+        secondTeam = teams[j];
+      }
     }
 
-    if (!firstTeam) {
+    if (!firstTeam && !secondTeam) {
+      return res.json({
+        status: "error",
+        reason: `Both ${teamA} and ${teamB} are not regsitered`,
+      });
+    } else if (!firstTeam) {
       return res.json({
         status: "error",
         reason: `${teamA} is not registered`,
       });
-    }
-
-    let secondTeam;
-    try {
-      secondTeam = await Team.findOne({ name: teamB });
-    } catch (err) {
-      return res.json({ status: "error", reason: err.message });
-    }
-
-    if (!secondTeam) {
+    } else if (!secondTeam) {
       return res.json({
         status: "error",
         reason: `${teamB} is not registered`,
@@ -189,10 +205,12 @@ router.patch("/", async (req, res) => {
 
     firstTeam.opponents.push(teamB);
     secondTeam.opponents.push(teamA);
-
-    await firstTeam.save();
-    await secondTeam.save();
   }
+
+  for (let i = 0; i < teams.length; i++) {
+    await teams[i].save();
+  }
+
   return res.json({ matches });
 });
 
