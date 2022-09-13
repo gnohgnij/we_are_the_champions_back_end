@@ -61,11 +61,11 @@ router.post("/", async (req, res) => {
     }
 
     //Check if there are more than 6 teams per group
+    if (parseInt(group) === 1) group1Size++;
+    else if (parseInt(group) === 2) group2Size++;
     if (group1Size > 6 || group2Size > 6) {
       return res.json({ status: "error", reason: "Group size exceeded" });
     }
-    if (parseInt(group) === 1) group1Size++;
-    else if (parseInt(group) === 2) group2Size++;
 
     //Check the current team is already registered
     if (saveTeams.find((team) => team.name === name)) {
