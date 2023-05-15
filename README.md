@@ -1,4 +1,4 @@
-# We are the Champions Back End
+# We are the Champions Back End (Inactive)
 
 Tech Stack: ExpressJS, NodeJS, MongoDB
 
